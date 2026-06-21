@@ -99,7 +99,7 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -447,7 +447,22 @@ do
 
   -- ... and there is more!
   --  Check out: https://github.com/nvim-mini/mini.nvim
-end
+
+  -- Discord Rich Presence
+  vim.pack.add { gh 'vyfor/cord.nvim' }
+  require('cord').setup {}
+
+  vim.pack.add { gh 'wakatime/vim-wakatime' }
+ 
+  vim.cmd('packadd copilot.lua')
+  require('copilot').setup({
+    suggestion = { enabled = false },
+    panel = { enabled = false },
+  })
+
+  vim.pack.add { gh 'giuxtaposition/blink-cmp-copilot' }
+
+  end
 
 -- ============================================================
 -- SECTION 5: SEARCH & NAVIGATION
@@ -702,6 +717,12 @@ do
     --
     -- But for many setups, the LSP (`ts_ls`) will work just fine
     -- ts_ls = {},
+    vtsls = {},
+    tailwindcss = {},
+    eslint = {},
+    jsonls = {},
+    astro = {},
+    intelephense = {},
 
     stylua = {}, -- Used to format Lua code
 
@@ -739,6 +760,10 @@ do
       },
     },
   }
+
+  vim.lsp.config('intelephense', {
+    root_markers = { 'composer.json', '.git' }
+  })
 
   vim.pack.add {
     gh 'neovim/nvim-lspconfig',
@@ -802,6 +827,13 @@ do
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      javascript = { "prettierd", "prettier", stop_after_first = true },
+      typescript = { "prettierd", "prettier", stop_after_first = true },
+      javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+      typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+      css = { "prettierd", "prettier", stop_after_first = true },
+      json = { "prettierd", "prettier", stop_after_first = true },
+      astro = { "prettierd", "prettier", stop_after_first = true },
     },
   }
 
@@ -871,7 +903,15 @@ do
     },
 
     sources = {
-      default = { 'lsp', 'path', 'snippets' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+      providers = {
+        copilot = {
+          name = 'copilot',
+          module = 'blink-cmp-copilot',
+          score_offset = 100,
+          async = true,
+        }
+      }
     },
 
     snippets = { preset = 'luasnip' },
@@ -967,11 +1007,11 @@ do
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug'
-  -- require 'kickstart.plugins.indent_line'
+     require 'kickstart.plugins.indent_line'
   -- require 'kickstart.plugins.lint'
-  -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
-  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+     require 'kickstart.plugins.autopairs'
+     require 'kickstart.plugins.neo-tree'
+     require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
